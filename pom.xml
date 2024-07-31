@@ -126,6 +126,7 @@
 								<goals>
 									<goal>jar</goal>
 								</goals>
+								<phase>verify</phase>
 							</execution>
 						</executions>
 					</plugin>
