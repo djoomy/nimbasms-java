@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.nimbasms</groupId>
 	<artifactId>nimbasms</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>nimbasms</name>
 	<description>A Java module for communicating with Nimba SMS API.</description>
 	<url>https://github.com/djoomy/nimbasms-java</url>
 	<scm>
 		<url>https://github.com/djoomy/nimbasms-java.git</url>
 		<connection>scm:git:https://github.com/djoomy/nimbasms-java.git</connection>
-		<tag>HEAD</tag>
+		<tag>nimbasms-0.0.1</tag>
 	</scm>
 	<developers>
 		<developer>
