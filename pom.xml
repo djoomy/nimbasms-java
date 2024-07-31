@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>gn.nimba</groupId>
+	<groupId>com.nimbasms</groupId>
 	<artifactId>nimbasms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>nimbasms</name>
 	<description>A Java module for communicating with Nimba SMS API.</description>
+	<url>https://github.com/djoomy/nimbasms-java</url>
+	<scm>
+		<url>https://github.com/djoomy/nimbasms-java.git</url>
+		<connection>scm:git:https://github.com/djoomy/nimbasms-java.git</connection>
+		<tag>HEAD</tag>
+	</scm>
+	<developers>
+		<developer>
+			<name>Hamidou Balde</name>
+			<email>hamidoubalde.pro@gmail.com</email>
+			<organization>djoomy</organization>
+			<organizationUrl>https://djoomy/nimbasms-java.git</organizationUrl>
+		</developer>
+		<developer>
+			<name>Mamadou Pathé DIALLO</name>
+			<email>diallo.mamadoup@gmail.com</email>
+			<organization>djomy.co</organization>
+			<organizationUrl>https://pathus90.github.io/</organizationUrl>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 	<properties>
 		<java.version>11</java.version>
-		<okhttp.version>4.10.0</okhttp.version>
+		<okhttp.version>4.12.0</okhttp.version>
 		<jackson.version>2.14.1</jackson.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<maven.compiler.version>3.6.1</maven.compiler.version>
-		<lombok.version>1.18.26</lombok.version>
+		<lombok.version>1.18.30</lombok.version>
 		<jackson-databind.version>2.15.1</jackson-databind.version>
 	</properties>
 	<dependencies>
@@ -34,31 +61,120 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson-databind.version}</version>
 		</dependency>
-
-
 	</dependencies>
-	<build>
-	<plugins>
-	<plugin>
-		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-release-plugin</artifactId>
-		<version>2.5.3</version>
-		<configuration>
-			<autoVersionSubmodules>true</autoVersionSubmodules>
-			<useReleaseProfile>false</useReleaseProfile>
-			<releaseProfiles>release</releaseProfiles>
-			<goals>deploy</goals>
-		</configuration>
-	</plugin>
-	<plugin>
-		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-compiler-plugin</artifactId>
-		<version>${maven.compiler.version}</version>
-		<configuration>
-			<source>${maven.compiler.source}</source>
-			<target>${maven.compiler.target}</target>
-		</configuration>
-	</plugin>
-	</plugins>
-	</build>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+	<profiles>
+		<profile>
+			<id>release</id>
+			<activation>
+				<property>
+					<name>release</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>3.0.0</version>
+						<configuration>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<useReleaseProfile>false</useReleaseProfile>
+							<releaseProfiles>release</releaseProfiles>
+							<goals>deploy</goals>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>${maven.compiler.version}</version>
+						<configuration>
+							<source>${maven.compiler.source}</source>
+							<target>${maven.compiler.target}</target>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>3.3.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>3.8.0</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+								<phase>install</phase>
+								<configuration>
+									<show>public</show>
+									<failOnError>false</failOnError>
+									<detectOfflineLinks>false</detectOfflineLinks>
+									<nohelp>true</nohelp>
+									<doclint>all,-missing</doclint>
+									<excludePackageNames>*.internal.*,testutil,demo</excludePackageNames>
+									<quiet>true</quiet>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>3.2.4</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<configuration>
+									<keyname>${gpg.keyname}</keyname>
+									<passphraseServerId>${gpg.keyname}</passphraseServerId>
+									<gpgArguments>
+										<arg>--pinentry-mode</arg>
+										<arg>loopback</arg>
+									</gpgArguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<!--plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.8</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin -->
+
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
